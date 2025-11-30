@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { supabase } from '../services/supabaseClient';
+import { Navbar, Container, Nav, Form, Button } from 'react-bootstrap';
 
-export default function Navbar() {
+export default function NavigationBar() {
     const [searchTerm, setSearchTerm] = useState('');
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
-
     const [profile, setProfile] = useState(null);
 
     useEffect(() => {
@@ -53,123 +53,75 @@ export default function Navbar() {
     };
 
     return (
-    <nav style={{ 
-        background: 'black', 
-        padding: '15px 30px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    }}>
-        <Link 
-            to={user ? "/p79/dashboard" : "/p79"} 
-            style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '20px' }}
-        >
-            Gaming Library Tracker
-        </Link>
+        <Navbar bg="dark" variant="dark" expand="lg" className="py-3">
+            <Container fluid className="px-4">
+                <Navbar.Brand 
+                    as={Link} 
+                    to={user ? "/p79/dashboard" : "/p79"}
+                    className="fw-bold fs-5"
+                >
+                    Gaming Library Tracker
+                </Navbar.Brand>
 
-        <div style={{ display: 'flex', gap: '25px', fontSize: '18px', alignItems: "center" }}>
-            {user ? (<div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                        <div
-                            onClick={() => navigate("/p79/profile")}
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                cursor: "pointer",
-                                color: "white",
-                                gap: "10px",
-                            }}
-                        >
-                            {/* Avatar */}
-                            <div
-                                style={{
-                                    width: "35px",
-                                    height: "35px",
-                                    borderRadius: "50%",
-                                    backgroundColor: profile?.avatar_color || "#3d9ad7",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    fontWeight: "bold",
-                                    fontSize: "16px",
-                                    color: "white",
-                                    textTransform: "uppercase",
-                                }}
-                            >
-                                {user.user_metadata?.username
-                                    ? user.user_metadata.username[0]
-                                    : user.email[0]}
-                            </div>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+                    <Nav className="align-items-center gap-3">
+                        {user ? (
+                            <>
+                                <Nav.Link 
+                                    as={Link}
+                                    to="/p79/profile"
+                                    className="d-flex align-items-center gap-2 text-white"
+                                >
+                                    <div 
+                                        className="rounded-circle d-flex justify-content-center align-items-center fw-bold text-white text-uppercase"
+                                        style={{
+                                            width: "35px",
+                                            height: "35px",
+                                            backgroundColor: profile?.avatar_color || "#3d9ad7"
+                                        }}
+                                    >
+                                        {user.user_metadata?.username
+                                            ? user.user_metadata.username[0]
+                                            : user.email[0]}
+                                    </div>
+                                    <span className="small">
+                                        {user.user_metadata?.username || user.email}
+                                    </span>
+                                </Nav.Link>
 
-                            {/* Username */}
-                            <span style={{ fontSize: "16px" }}>
-                                {user.user_metadata?.username || user.email}
-                            </span>
-                        </div>
+                                <Button 
+                                    variant="info"
+                                    size="sm"
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Nav.Link as={Link} to="/p79/login" className="text-white">
+                                    Log in
+                                </Nav.Link>
+                                <Nav.Link as={Link} to="/p79/signup" className="text-white">
+                                    Sign up
+                                </Nav.Link>
+                            </>
+                        )}
 
-                        {/* Logout button */}
-                        <button
-                            onClick={handleLogout}
-                            style={{
-                                backgroundColor: "#4db8ff",
-                                color: "white",
-                                border: "none",
-                                padding: "5px 10px",
-                                borderRadius: "5px",
-                                cursor: "pointer",
-                                fontSize: "15px"
-                            }}
-                        >
-                            Logout
-                        </button>
-                    </div>
-                ) : (
-                    // Not logged in: show login/signup
-                    <>
-                        <Link
-                            to="/p79/login"
-                            style={{ color: "white", textDecoration: "none" }}
-                        >
-                            Log in
-                        </Link>
-                        <Link
-                            to="/p79/signup"
-                            style={{ color: "white", textDecoration: "none" }}
-                        >
-                            Sign up
-                        </Link>
-                    </>
-                )}
-
-                {/* Search box */}
-                <form onSubmit={handleSearch}>
-                    <label htmlFor="search-games" style={{
-                        position: "absolute",
-                        width: "1px",
-                        height: "1px",
-                        padding: "0",
-                        margin: "-1px",
-                        overflow: "hidden",
-                        clip: "rect(0, 0, 0, 0)",
-                        whiteSpace: "nowrap",
-                        borderWidth: "0"
-                    }}>
-                        Search games:
-                    </label>
-                    <input
-                        id="search-games"
-                        type="text"
-                        placeholder="Search games..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{
-                            padding: "8px 12px",
-                            borderRadius: "4px",
-                            border: "none",
-                            outline: "none",
-                        }}
-                    />
-                </form>
-            </div>
-        </nav>
+                        <Form onSubmit={handleSearch} className="d-flex">
+                            <Form.Control
+                                type="text"
+                                placeholder="Search games..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                size="sm"
+                                aria-label="Search games"
+                            />
+                        </Form>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 }

@@ -1,27 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchGames, searchGames } from "../services/rawgApi";
-import { useNavigate , useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import GameCard from "../components/GameCard";
+import { Container, Row, Col, Button, ButtonGroup } from "react-bootstrap";
 
 export default function Dashboard() {
-    const buttonStyle = (active) => ({
-        padding: "8px 12px",
-        borderRadius: "5px",
-        backgroundColor: active ? "#555" : "#1f2a38",
-        color: "white",
-        cursor: active ? "not-allowed" : "pointer",
-    });
-
-    const pageButtonStyle = (p) => ({
-        padding: "8px 12px",
-        borderRadius: "5px",
-        backgroundColor: page === p ? "#3b82f6" : "#1f2a38",
-        color: page === p ? "white" : "#ccc",
-        fontWeight: page === p ? "bold" : "normal",
-        cursor: "pointer",
-    });
-
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -75,75 +59,97 @@ export default function Dashboard() {
         let start = Math.max(page - Math.floor(maxButtons / 2), 1);
         let end = start + maxButtons - 1;
         if (end > totalPages) {
-        end = totalPages;
-        start = Math.max(end - maxButtons + 1, 1);
+            end = totalPages;
+            start = Math.max(end - maxButtons + 1, 1);
         }
         for (let i = start; i <= end; i++) {
-        pages.push(i);
+            pages.push(i);
         }
         return pages;
     };
 
-    if (loading) return (
-        <div style={{ backgroundColor: "#0b1b2b", color: "white", minHeight: "100vh", padding: "10px"}}>
-            <Navbar />
-        <p>Loading games...</p>
-        </div>
-    )
-    if (error) return <p>{error}</p>;
+    if (loading) {
+        return (
+            <div className="page-bg-primary">
+                <Navbar />
+                <Container className="py-3">
+                    <p className="text-white">Loading games...</p>
+                </Container>
+            </div>
+        );
+    }
+
+    if (error) return <p className="text-danger">{error}</p>;
 
     return (
-        <div style={{ backgroundColor: "#0b1b2b", minHeight: "100vh", color: "white"}}>
+        <div className="page-bg-primary">
             <Navbar />
 
-            <div style={{ padding: "20px", paddingBottom: "10px"}}>
-                <h1>Game Dashboard</h1>
-                <div style={{paddingTop: "10px"}}>
-                    <p>Total games: {totalGames.toLocaleString()}</p>
+            <Container fluid className="px-4 py-3">
+                <h1 className="text-white">Game Dashboard</h1>
+                <div className="pt-2">
+                    <p className="text-white">
+                        Total games: {totalGames.toLocaleString()}
+                    </p>
                 </div>
 
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                        gap: "20px",
-                    }}
-                >
+                <Row xs={1} sm={2} md={3} lg={4} xl={5} className="g-4">
                     {games.map((game) => (
-                        <GameCard key={game.id} game={game} />
+                        <Col key={game.id}>
+                            <GameCard game={game} />
+                        </Col>
                     ))}
-                </div>
+                </Row>
 
-                <div style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "5px",
-                    flexWrap: "wrap",
-                    marginTop: "20px",
-                    overflowX: "auto",
-                    padding: "10px 0",
-                }}>
-                    <button onClick={() => setPage(1)} disabled={page === 1} style={buttonStyle(page === 1)}>First</button>
+                <div className="pagination-container">
+                    <Button 
+                        className="pagination-btn"
+                        onClick={() => setPage(1)} 
+                        disabled={page === 1}
+                    >
+                        First
+                    </Button>
 
-                    <button onClick={handlePrev} disabled={page === 1} style={buttonStyle(page === 1)}>Prev</button>
+                    <Button 
+                        className="pagination-btn"
+                        onClick={handlePrev} 
+                        disabled={page === 1}
+                    >
+                        Prev
+                    </Button>
 
                     {getPageNumbers().map((p) => (
-                        <button key={p} onClick={() => setPage(p)} style={pageButtonStyle(p)}>
+                        <Button 
+                            key={p} 
+                            className={page === p ? "pagination-btn pagination-btn-active" : "pagination-btn"}
+                            onClick={() => setPage(p)}
+                        >
                             {p}
-                        </button>
+                        </Button>
                     ))}
 
                     {totalPages > maxButtons &&
                         page < totalPages - Math.floor(maxButtons / 2) && (
-                        <span style={{ margin: "0 5px" }}>...</span>
+                        <span className="text-white mx-2">...</span>
                     )}
 
-                    <button onClick={handleNext} disabled={page === totalPages} style={buttonStyle(page === totalPages)}>Next</button>
+                    <Button 
+                        className="pagination-btn"
+                        onClick={handleNext} 
+                        disabled={page === totalPages}
+                    >
+                        Next
+                    </Button>
 
-                    <button onClick={() => setPage(totalPages)} disabled={page === totalPages} style={buttonStyle(page === totalPages)}>Last</button>
+                    <Button 
+                        className="pagination-btn"
+                        onClick={() => setPage(totalPages)} 
+                        disabled={page === totalPages}
+                    >
+                        Last
+                    </Button>
                 </div>
-            </div>
+            </Container>
         </div>
     );
 }

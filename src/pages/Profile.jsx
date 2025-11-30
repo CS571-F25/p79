@@ -221,9 +221,9 @@ export default function Profile() {
 
                     {/* User Info */}
                     <div>
-                        <h2 style={{ margin: 0, fontSize: "36px" }}>
+                        <h1 style={{ margin: 0, fontSize: "36px" }}>
                             {user.user_metadata?.username || user.email}
-                        </h2>
+                        </h1>
                     </div>
                 </div>
 

@@ -1,33 +1,28 @@
 import { useNavigate } from "react-router-dom";
+import { Card } from "react-bootstrap";
 
 export default function GameCard({ game }) {
     const navigate = useNavigate();
 
     return (
-        <div
+        <Card 
             onClick={() => navigate(`/p79/gamedetail/${game.id}`)}
-            style={{
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-                overflow: "hidden",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                backgroundColor: "#142236",
-                cursor: "pointer",
-                transition: "transform 0.2s ease",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            className="h-100 game-card"
+            style={{ cursor: 'pointer', backgroundColor: '#142236' }}
         >
             {game.background_image && (
-                <img
+                <Card.Img 
+                    variant="top" 
                     src={game.background_image}
                     alt={game.name}
-                    style={{ width: "100%", height: "150px", objectFit: "cover" }}
+                    style={{ height: "150px", objectFit: "cover" }}
                 />
             )}
-            <div style={{ padding: "10px" }}>
-                <h3 style={{ margin: "0 0 5px 0", fontSize: "20px" }}>{game.name}</h3>
-            </div>
-        </div>
+            <Card.Body className="p-3">
+                <Card.Title className="h5 mb-0 text-white">
+                    {game.name}
+                </Card.Title>
+            </Card.Body>
+        </Card>
     );
 }

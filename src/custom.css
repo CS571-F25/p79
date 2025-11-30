@@ -1,0 +1,188 @@
+/* Custom theme colors */
+:root {
+    --bg-primary: #0b1b2b;
+    --bg-secondary: #142236;
+    --bg-tertiary: #1a2332;
+    --bg-card: #1f2d3e;
+    --accent-blue: #4db8ff;
+    --accent-blue-dark: #3d9ad7;
+}
+
+/* Body and layout */
+body {
+    background-color: var(--bg-primary);
+    color: white;
+    min-height: 100vh;
+}
+
+/* Navbar overrides */
+.navbar {
+    background-color: black !important;
+    padding: 15px 10px !important;
+}
+
+.navbar-brand {
+    font-size: 20px !important;
+}
+
+.navbar .nav-link {
+    font-size: 18px;
+}
+
+.navbar .btn-info {
+    background-color: #4db8ff;
+    border-color: #4db8ff;
+    font-size: 15px;
+    padding: 5px 10px;
+}
+
+.navbar .form-control {
+    padding: 8px 12px;
+}
+
+/* Game card hover effect */
+.game-card {
+    transition: transform 0.2s ease;
+    border: 1px solid #ccc;
+}
+
+.game-card:hover {
+    transform: scale(1.02);
+}
+
+/* Review card styling */
+.review-card {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Status box styling */
+.status-box {
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--accent-blue);
+}
+
+/* Star ratings */
+.star-filled {
+    color: #ffa500;
+}
+
+.star-empty {
+    color: #444;
+}
+
+/* Page backgrounds */
+.page-bg-primary {
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+}
+
+.page-bg-secondary {
+    background-color: var(--bg-secondary);
+    min-height: 100vh;
+}
+
+/* Profile header */
+.profile-header {
+    background-color: var(--bg-tertiary);
+}
+
+/* Accent buttons */
+.btn-accent {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+}
+
+.btn-accent:hover {
+    background-color: var(--accent-blue-dark);
+    border-color: var(--accent-blue-dark);
+    color: white;
+}
+
+/* Tab styling */
+.tab-active {
+    background-color: var(--accent-blue) !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+.tab-inactive {
+    background-color: transparent;
+    color: #ccc;
+}
+
+.tab-inactive:hover {
+    background-color: rgba(77, 184, 255, 0.1);
+}
+
+/* Modal styling */
+.modal-content {
+    background-color: #3f454b;
+    color: white;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal-body {
+    color: white;
+}
+
+/* Form controls in dark mode */
+.form-control-dark {
+    background-color: white;
+    border: none;
+    color: black;
+}
+
+.form-select-dark {
+    background-color: white;
+    border: none;
+    color: black;
+}
+
+/* Avatar styling */
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+}
+
+.avatar-lg {
+    width: 120px;
+    height: 120px;
+    font-size: 48px;
+}
+
+/* Pagination button styling */
+.pagination-btn {
+    background-color: #1f2a38;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: #2a3a4a;
+}
+
+.pagination-btn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+.pagination-btn-active {
+    background-color: #3b82f6;
+    color: white;
+    font-weight: bold;
+}
